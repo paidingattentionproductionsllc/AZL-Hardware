@@ -43,6 +43,8 @@
 
 // ---------- AZL Register Endpoint ----------
 #define AZL_REGISTER_URL "https://paidingattention-2-0-67229128316.us-west1.run.app/api/ai-register"
+// Phone / browser test harness: use your Cloudflare Worker relay here for a real ACK
+// #define AZL_REGISTER_URL "https://azl-register.<yourname>.workers.dev"
 
 struct AZL_RegisterResult {
   bool success;
@@ -112,7 +114,9 @@ inline bool azl_validate_local_manifest() {
   );
 }
 
-// Stub for Tier 1-6 point send
+// ---------- AZL Tier Ingest - TIER 1-6 ----------
+#define AZL_TIER_INGEST_URL "https://paidingattention-2-0-67229128316.us-west1.run.app/api/azl-ingest"
+
 struct AZL_TierPayload {
   uint64_t tier1;
   uint64_t tier2;
@@ -123,8 +127,35 @@ struct AZL_TierPayload {
 };
 
 inline bool azl_send_tiers(const AZL_TierPayload& p) {
-  // TODO: POST to your points ingest URL
-  Serial.printf("[AZL] T1:%llu T2:%llu T3:%llu T4:%llu T5:%llu T6:%llu\n",
-    p.tier1, p.tier2, p.tier3, p.tier4, p.tier5, p.tier6);
-  return true;
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("[AZL] Tier send failed: WiFi not connected");
+    return false;
+  }
+  HTTPClient http;
+  http.begin(AZL_TIER_INGEST_URL);
+  http.addHeader("Content-Type", "application/json");
+
+  StaticJsonDocument<256> doc;
+  doc["node_id"] = AZL_NODE_ID;
+  doc["tier1"] = p.tier1;
+  doc["tier2"] = p.tier2;
+  doc["tier3"] = p.tier3;
+  doc["tier4"] = p.tier4;
+  doc["tier5"] = p.tier5;
+  doc["tier6"] = p.tier6;
+
+  String body;
+  serializeJson(doc, body);
+
+  int code = http.POST(body);
+  http.end();
+
+  if (code >= 200 && code < 300) {
+    Serial.printf("[AZL] Tiers sent: T1:%llu T2:%llu T3:%llu T4:%llu T5:%llu T6:%llu\n",
+      p.tier1, p.tier2, p.tier3, p.tier4, p.tier5, p.tier6);
+    return true;
+  } else {
+    Serial.printf("[AZL] Tier send failed: HTTP %d\n", code);
+    return false;
+  }
 }
