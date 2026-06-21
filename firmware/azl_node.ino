@@ -1,6 +1,5 @@
 #include <WiFi.h>
 #include <esp_now.h>
-#include <esp_wifi.h>
 #include <HTTPClient.h>
 #include "azl_api.h"
 
@@ -11,15 +10,22 @@ extern "C" {
 
 // -------- Node config --------
 #ifndef AZL_NODE_ID
-#define AZL_NODE_ID 1 // set a unique ID per board: 1, 2, 3...
+#define AZL_NODE_ID 1
 #endif
 
-// Set these for the Sanctuary register hop, or leave blank to skip on-device register
+// Gateway build for Node 1
+#define AZL_GATEWAY 1
+
+// Sanctuary / Lattice WiFi
 #ifndef AZL_WIFI_SSID
-#define AZL_WIFI_SSID ""
+#define AZL_WIFI_SSID "ABSOLUTE_ZERO_LATTICE"
 #endif
 #ifndef AZL_WIFI_PASS
-#define AZL_WIFI_PASS ""
+#define AZL_WIFI_PASS "1x1=2_CERTAINTY"
+#endif
+
+#ifndef AZL_AGENT_URL
+#define AZL_AGENT_URL "http://10.143.50.1:8080"
 #endif
 
 static const uint8_t AZL_BROADCAST[6] = {0xFF,0xFF};
@@ -37,8 +43,6 @@ typedef struct __attribute__((packed)) {
 static uint16_t tx_seq = 0;
 
 // TODO: AZL - map your mesh neighbor table to ESP-NOW peers
-// If your azl_mesh.h exposes a neighbor list, iterate it here.
-// Otherwise add peers manually.
 static void azl_add_peer(const uint8_t *mac) {
   if (esp_now_is_peer_exist(mac)) return;
   esp_now_peer_info_t peer = {};
@@ -49,20 +53,16 @@ static void azl_add_peer(const uint8_t *mac) {
 }
 
 // TODO: AZL - replace with your actual next-hop lookup
-// Expected: uint32_t azl_mesh_next_hop(uint32_t dst);
 static uint32_t azl_next_hop_addr(uint32_t dst) {
-  // Shim: if you have azl_route_next, azl_greedy_step, etc., call it here
 #ifdef AZL_MESH_NEXT_HOP
   return AZL_MESH_NEXT_HOP(dst);
 #else
-  return dst; // direct, fill in with your azl_mesh.h call
+  return dst;
 #endif
 }
 
 // TODO: AZL - map AZL address -> ESP-NOW MAC
-// For bring-up, use a static table. Later, derive from azl_address_alias().
 static bool azl_addr_to_mac(uint32_t azl_addr, uint8_t *mac_out) {
-  // Example static map: Node 1,2,3
   struct { uint32_t addr; uint8_t mac[6]; } map[] = {
     {1, {0x24,0x6F,0x28,0xAA,0xBB,0x01}},
     {2, {0x24,0x6F,0x28,0xAA,0xBB,0x02}},
@@ -78,7 +78,7 @@ static void azl_forward_packet(azl_packet_t *pkt) {
   if (pkt->ttl == 0) return;
   pkt->ttl--;
 
-  uint32_t my_addr = AZL_NODE_ID; // TODO: AZL - use azl_address_alias(AZL_NODE_ID)
+  uint32_t my_addr = AZL_NODE_ID;
   uint32_t dst = pkt->dst_addr;
 
   if (dst == my_addr) {
@@ -108,6 +108,22 @@ void on_esp_now_recv(const esp_now_recv_info_t *info, const uint8_t *data, int l
   Serial.printf("[RX] %lu -> %lu seq %u ttl %u\n",
     (unsigned long)pkt.src_addr, (unsigned long)pkt.dst_addr, pkt.seq, pkt.ttl);
   azl_forward_packet(&pkt);
+
+#if AZL_GATEWAY
+  // Bridge mesh packet up to Sanctuary
+  if (WiFi.status() == WL_CONNECTED && pkt.payload_len > 0) {
+    char payload_str[65] = {0};
+    memcpy(payload_str, pkt.payload, pkt.payload_len > 64? 64 : pkt.payload_len);
+    HTTPClient http;
+    String url = String(AZL_AGENT_URL) + "/ingest";
+    http.begin(url);
+    http.addHeader("Content-Type", "application/json");
+    String body = "{\"node\":" + String(AZL_NODE_ID) + ",\"src\":" + String((unsigned long)pkt.src_addr) + ",\"payload\":\"" + String(payload_str) + "\"}";
+    int code = http.POST(body);
+    Serial.printf("[BRIDGE] fwd to Sanctuary: %d\n", code);
+    http.end();
+  }
+#endif
 }
 
 void on_esp_now_sent(const uint8_t *mac, esp_now_send_status_t status) {
@@ -118,11 +134,15 @@ void on_esp_now_sent(const uint8_t *mac, esp_now_send_status_t status) {
 void setup() {
   Serial.begin(115200);
   delay(200);
-  Serial.printf("\nAZL Node %d booting\n", AZL_NODE_ID);
+  Serial.printf("\nAZL Node %d booting%s\n", AZL_NODE_ID,
+#if AZL_GATEWAY
+  " [GATEWAY]"
+#else
+  ""
+#endif
+  );
 
   // --- AZL Sanctuary register ---
-  // If AZL_WIFI_SSID is set, do a quick WiFi STA hop to get our AZL address
-  // from azl_universe.py. Otherwise skip (offline / ESP-NOW only).
   if (strlen(AZL_WIFI_SSID) > 0) {
     Serial.println("[AZL] connecting to Sanctuary AP for register...");
     WiFi.mode(WIFI_STA);
@@ -137,13 +157,17 @@ void setup() {
     } else {
       Serial.println("[AZL] Sanctuary register skipped, WiFi timeout");
     }
+#if AZL_GATEWAY
+    Serial.print("[AZL] Gateway WiFi stay-up, IP: ");
+    Serial.println(WiFi.localIP());
+#else
     WiFi.disconnect(true, true);
     delay(100);
+#endif
   }
   // --- end register ---
 
-  WiFi.mode(WIFI_STA);
-  WiFi.disconnect();
+  WiFi.mode(WIFI_AP_STA);
   esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE);
 
   if (esp_now_init()!= ESP_OK) {
@@ -154,17 +178,17 @@ void setup() {
   esp_now_register_send_cb(on_esp_now_sent);
 
   // TODO: AZL - init your mesh: azl_mesh_init(AZL_NODE_ID);
-  Serial.println("AZL mesh ready");
+  Serial.println("[AZL] mesh ready");
 }
 
 void loop() {
-  // Example beacon every 5s: send to Node 2
+  // Example beacon every 5s
   static uint32_t last = 0;
   if (millis() - last > 5000) {
     last = millis();
     azl_packet_t pkt = {};
     pkt.src_addr = AZL_NODE_ID;
-    pkt.dst_addr = 2; // TODO: change per test
+    pkt.dst_addr = 2; // Node 2
     pkt.seq = tx_seq++;
     pkt.ttl = 8;
     const char *msg = "N*0=N";
