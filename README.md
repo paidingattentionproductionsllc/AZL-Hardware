@@ -10,3 +10,9 @@ No pre-packaged 1B address dump. Compute `N×0=N` on device.
 
 Based on: Absolute Zero Lattice by PaidingAttention Productions LLC (2026), CC-BY-4.0
 https://github.com/paidingattentionproductionsllc/Lattice
+AZL-Hardware
+Copyright 2026 PaidingAttention Productions LLC
+
+This project builds on Absolute Zero Lattice
+https://github.com/paidingattentionproductionsllc/Lattice
+Licensed CC-BY-4.0
