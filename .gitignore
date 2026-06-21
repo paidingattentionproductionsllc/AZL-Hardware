@@ -3,3 +3,5 @@ __pycache__/
 azl_part_*.jsonl.gz
 manifest.json
 .DS_Store
+azl_tier7/
+*.jsonl.gz
