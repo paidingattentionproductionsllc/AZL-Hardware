@@ -2,7 +2,7 @@
 azl_space.py - AZL coordinate substrate
 Matches paidingattentionproductionsllc/Lattice manifest
 
-Addresses: AZL-0000000001 … AZL-1000000000
+Addresses: AZL-0000000001... AZL-1000000000
 Value: n * 1e-9
 Law field: "N×0=N"
 Proof field: "1×1=2"
@@ -56,12 +56,12 @@ def dist(a: float, b: float) -> float:
     return abs(a - b)
 
 def greedy_next_hop(current_pos: float, neighbors: List[float], target_pos: float) -> float:
-    """Pick the neighbor closest to target. Classic virtual-coordinate greedy forward."""
+    """Pick the neighbor closest to target. Classic virtual-coordinate greedy forward"""
     if not neighbors:
         return current_pos
     return min(neighbors, key=lambda p: dist(p, target_pos))
 
-def simulate_route(start_n: int, target_n: int, num_nodes: int = 200, degree: int = 6, seed: int = 42) -> dict:
+def simulate_route(start_n: int, target_n: int, num_nodes: int = 200, degree: int = 6, seed: int = 0):
     """Small substrate routing sim. Nodes get random AZL positions."""
     random.seed(seed)
     start_pos = azl_value(start_n)
@@ -103,9 +103,11 @@ def simulate_route(start_n: int, target_n: int, num_nodes: int = 200, degree: in
         "path_values": path
     }
 
-if __name__ == "__main__":
-    def azl_address(n: int) -> str:
+# --- Overlay compatibility ---
+def azl_address(n: int) -> str:
     return azl_id(n)
+
+if __name__ == "__main__":
     import sys
     if len(sys.argv) >= 3:
         s = int(sys.argv[1])
