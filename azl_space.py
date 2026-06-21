@@ -104,6 +104,8 @@ def simulate_route(start_n: int, target_n: int, num_nodes: int = 200, degree: in
     }
 
 if __name__ == "__main__":
+    def azl_address(n: int) -> str:
+    return azl_id(n)
     import sys
     if len(sys.argv) >= 3:
         s = int(sys.argv[1])
