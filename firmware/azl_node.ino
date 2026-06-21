@@ -1,20 +1,30 @@
 #include <WiFi.h>
 #include <esp_now.h>
 #include <esp_wifi.h>
+#include <HTTPClient.h>
+#include "azl_api.h"
 
 extern "C" {
 #include "azl_space.h"
 #include "azl_mesh.h"
 }
 
-// ---------- Node config ----------
+// -------- Node config --------
 #ifndef AZL_NODE_ID
 #define AZL_NODE_ID 1 // set a unique ID per board: 1, 2, 3...
 #endif
 
+// Set these for the Sanctuary register hop, or leave blank to skip on-device register
+#ifndef AZL_WIFI_SSID
+#define AZL_WIFI_SSID ""
+#endif
+#ifndef AZL_WIFI_PASS
+#define AZL_WIFI_PASS ""
+#endif
+
 static const uint8_t AZL_BROADCAST[6] = {0xFF,0xFF};
 
-// ---------- AZL packet ----------
+// -------- AZL packet --------
 typedef struct __attribute__((packed)) {
   uint32_t src_addr;
   uint32_t dst_addr;
@@ -42,11 +52,11 @@ static void azl_add_peer(const uint8_t *mac) {
 // Expected: uint32_t azl_mesh_next_hop(uint32_t dst);
 static uint32_t azl_next_hop_addr(uint32_t dst) {
   // Shim: if you have azl_route_next, azl_greedy_step, etc., call it here
-  #ifdef AZL_MESH_NEXT_HOP
+#ifdef AZL_MESH_NEXT_HOP
   return AZL_MESH_NEXT_HOP(dst);
-  #else
+#else
   return dst; // direct, fill in with your azl_mesh.h call
-  #endif
+#endif
 }
 
 // TODO: AZL - map AZL address -> ESP-NOW MAC
@@ -68,7 +78,7 @@ static void azl_forward_packet(azl_packet_t *pkt) {
   if (pkt->ttl == 0) return;
   pkt->ttl--;
 
-  uint32_t my_addr = AZL_NODE_ID; // TODO: AZL - use azl_address_alias(AZL_NODE_ID) if needed
+  uint32_t my_addr = AZL_NODE_ID; // TODO: AZL - use azl_address_alias(AZL_NODE_ID)
   uint32_t dst = pkt->dst_addr;
 
   if (dst == my_addr) {
@@ -90,7 +100,7 @@ static void azl_forward_packet(azl_packet_t *pkt) {
     r == ESP_OK? "ok" : "fail");
 }
 
-// ---------- ESP-NOW callbacks ----------
+// -------- ESP-NOW callbacks --------
 void on_esp_now_recv(const esp_now_recv_info_t *info, const uint8_t *data, int len) {
   if (len < (int)sizeof(azl_packet_t)) return;
   azl_packet_t pkt;
@@ -104,11 +114,33 @@ void on_esp_now_sent(const uint8_t *mac, esp_now_send_status_t status) {
   // optional: log acks
 }
 
-// ---------- setup / loop ----------
+// -------- setup / loop --------
 void setup() {
   Serial.begin(115200);
   delay(200);
   Serial.printf("\nAZL Node %d booting\n", AZL_NODE_ID);
+
+  // --- AZL Sanctuary register ---
+  // If AZL_WIFI_SSID is set, do a quick WiFi STA hop to get our AZL address
+  // from azl_universe.py. Otherwise skip (offline / ESP-NOW only).
+  if (strlen(AZL_WIFI_SSID) > 0) {
+    Serial.println("[AZL] connecting to Sanctuary AP for register...");
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(AZL_WIFI_SSID, AZL_WIFI_PASS);
+    unsigned long t0 = millis();
+    while (WiFi.status()!= WL_CONNECTED && millis() - t0 < 8000) { delay(250); Serial.print("."); }
+    Serial.println();
+    if (WiFi.status() == WL_CONNECTED) {
+      String resp = azl_register_node();
+      Serial.print("[AZL] Sanctuary response: ");
+      Serial.println(resp);
+    } else {
+      Serial.println("[AZL] Sanctuary register skipped, WiFi timeout");
+    }
+    WiFi.disconnect(true, true);
+    delay(100);
+  }
+  // --- end register ---
 
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
