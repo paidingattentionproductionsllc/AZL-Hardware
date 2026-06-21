@@ -1,5 +1,6 @@
 # azl_lookup.py
-import sys, json
+import json
+import sys
 from azl_core import azl_record
 
 if len(sys.argv) < 2:
