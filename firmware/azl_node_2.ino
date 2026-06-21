@@ -8,27 +8,34 @@ extern "C" {
 #include "azl_mesh.h"
 }
 
-// -------- Node 2 – Mesh leaf --------
+// -------- Node 2 - Mesh leaf / Handheld Anchor --------
 #ifndef AZL_NODE_ID
 #define AZL_NODE_ID 2
 #endif
 
+// Lattice identity - matches paidingattention platform
+#define AZL_NODE_NAME "Github"
+#define AZL_LATTICE_ID "LAT-MILTG6042BP"
+#define AZL_ROLE "Handheld Anchor"
+#define AZL_LOGIC "1x1=2"
+#define AZL_GATEWAY_IP "10.143.50.1"
+
 // Gateway OFF for Node 2
 // #define AZL_GATEWAY 1
 
-// No WiFi for mesh node – stays on ESP-NOW
+// WiFi for Lattice registration - Absolute Zero Lattice
 #ifndef AZL_WIFI_SSID
-#define AZL_WIFI_SSID ""
+#define AZL_WIFI_SSID "ABSOLUTE_ZERO_LATTICE"
 #endif
 #ifndef AZL_WIFI_PASS
-#define AZL_WIFI_PASS ""
+#define AZL_WIFI_PASS "1x1=2_CERTAINTY"
 #endif
 
 #ifndef AZL_AGENT_URL
-#define AZL_AGENT_URL "http://10.143.50.1:8080"
+#define AZL_AGENT_URL "https://paidingattention-2-0-67229128316.us-west1.run.app/api/ai-register"
 #endif
 
-static const uint8_t AZL_BROADCAST[6] = {0xFF,0xFF,0xFF,0xFF};
+static const uint8_t AZL_BROADCAST[6] = {0xFF,0xFF};
 
 // -------- AZL packet --------
 typedef struct __attribute__((packed)) {
@@ -109,8 +116,9 @@ void setup() {
   Serial.begin(115200);
   delay(200);
   Serial.printf("\nAZL Node %d booting\n", AZL_NODE_ID);
+  Serial.printf("Node: %s / %s / %s\n", AZL_NODE_NAME, AZL_LATTICE_ID, AZL_ROLE);
 
-  // WiFi SSID is blank, so register is skipped, ESP-NOW only
+  // WiFi for Lattice registration
   if (strlen(AZL_WIFI_SSID) > 0) {
     WiFi.mode(WIFI_STA);
     WiFi.begin(AZL_WIFI_SSID, AZL_WIFI_PASS);
@@ -141,7 +149,7 @@ void loop() {
     pkt.dst_addr = 1; // send to Node 1 gateway
     pkt.seq = tx_seq++;
     pkt.ttl = 8;
-    const char *msg = "N*0=N";
+    const char *msg = "N*O=N";
     pkt.payload_len = strlen(msg);
     memcpy(pkt.payload, msg, pkt.payload_len);
     azl_forward_packet(&pkt);
