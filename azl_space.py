@@ -13,7 +13,7 @@ Tier 7: expand AZL_MAX to 10_000_000_000 for 10B addresses
 import math
 import json
 import random
-from typing import List, Tuple
+from typing import List
 
 # --- Lattice constants, per azl_manifest.json ---
 AZL_MIN = 1
