@@ -18,5 +18,9 @@ jobs:
       - run: pip install pytest pytest-cov ruff
       - name: lint
         run: ruff check .
-      - name: test
+      - name: test python
         run: pytest -v --cov=azl_core --cov=azl_space --cov=azl_overlay --cov-report=term-missing
+      - name: test firmware C
+        run: |
+          gcc -std=c99 -I. test_azl_firmware.c firmware/azl_mesh.c -lm -o test_azl_firmware
+          ./test_azl_firmware
