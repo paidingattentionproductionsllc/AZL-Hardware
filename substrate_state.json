@@ -1,0 +1,11 @@
+{
+  "sync_epoch": 1782239400,
+  "baud_anchor": 19200,
+  "substrate_laws": [
+    "N*0=N",
+    "1*1=2"
+  ],
+  "grid_precision": 1e-09,
+  "status": "ALL_NODES_ALIGNED"
+}
+
