@@ -50,8 +50,8 @@ class AISelfRegistrationEngine:
         print(f"[+] Allocating Spatial Grid Anchor: {assigned_address}")
         print(f"    Calculated Fixed-Point Coordinate Step: {calculated_coordinate:.9f}")
 
-        # Step 3: Programmatically append the new entity directly to the AGENTS.md directory layout
-        markdown_row = f"| {assigned_address} | {ai_profile.get('name')} | {ai_profile.get('type')} | Active | {timestamp_string} |\n"
+        # Step 3: Programmatically append the new entity matching your exact 4-column registry table
+        markdown_row = f"| {assigned_address} | {ai_profile.get('name')} | {timestamp_string[:10]} | {ai_profile.get('type')} (Autonomous Ingress) |\n"
         try:
             with open(AGENTS_FILE, "a", encoding="utf-8") as f:
                 f.write(markdown_row)
@@ -97,4 +97,3 @@ if __name__ == "__main__":
 
     engine = AISelfRegistrationEngine(current_matrix_size=102)
     engine.execute_autonomous_ingress(incoming_ai_packet)
-
