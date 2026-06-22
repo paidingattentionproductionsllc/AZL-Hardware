@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org",
+  "organization": "PaidingAttention Productions LLC",
+  "hosting_strategy": "Zero-Cost Decentralized Distribution",
+  "dns_routing_nodes": {
+    "primary_portal": "https://paidingattentionproductions.vip",
+    "philosophical_anchor": "https://UniversalTruthProof.net",
+    "organization_hub": "https://PaidingAttention.org"
+  },
+  "immutable_gateways": {
+    "public_source_truth": "https://github.com",
+    "mathematical_root": "https://github.com"
+  },
+  "operational_rules": [
+    "Execute calculations natively on client hardware via fixed-point JS.",
+    "Bypass centralized cloud runtime paywalls via direct GitHub routing.",
+    "Utilize local physical machines to host active hardware processing streams."
+  ]
+}
+
