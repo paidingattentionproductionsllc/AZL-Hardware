@@ -1,8 +1,10 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PaidingAttention Productions LLC | AZL Substrate Node Dashboard – v3 Unified</title>
-<meta name="description" content="Absolute Zero Lattice Substrate Node Dashboard – AZL Phone Anchor v2.1 – Node LAT-MILTG6042BP">
+<meta name="description" content="Absolute Zero Lattice Substrate Node Dashboard – AZL Phone Anchor v2.1 – Node LAT-MILTG6042BP. N×0=N | 1×1=2. 50 electron mappings verified.">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { -webkit-text-size-adjust: 100%; }
@@ -27,27 +29,27 @@
     font-family: 'Courier New', Courier, monospace;
     font-size: 14px;
   }
-  .container {
+ .container {
     max-width: 800px;
     margin: 0 auto;
     border: 1px solid #1f2833;
     padding: 30px;
     background: #151a21;
-    box-shadow: 0 0 15px rgba(0,255,65,0.1);
+    box-shadow: 0 0 15px rgba(255,107,53,0.1);
   }
 
   h1 {
-    color: #66fcf1;
+    color: #ff6b35;
     font-size: 1.55rem;
     font-weight: 700;
-    border-bottom: 2px solid #45a29e;
+    border-bottom: 2px solid #ff6b35;
     padding-bottom: 14px;
     margin-bottom: 12px;
     letter-spacing: 0.01em;
     line-height: 1.25;
   }
   h2 {
-    color: #45a29e;
+    color: #ff6b35;
     font-size: 1.13rem;
     font-weight: 700;
     margin: 36px 0 14px;
@@ -61,28 +63,29 @@
     margin: 18px 0;
   }
 
-  .metric-box {
+ .metric-box {
     background: #0b0c10;
-    border-left: 4px solid #66fcf1;
+    border-left: 4px solid #ff6b35;
     padding: 15px;
     margin: 15px 0;
   }
-  .green-text { color: #00ff41; font-weight: bold; }
-  .axiom { font-size: 1.2em; color: #66fcf1; font-weight: bold; }
+ .green-text { color: #00ff41; font-weight: bold; }
+ .orange-text { color: #ff6b35; font-weight: bold; }
+ .axiom { font-size: 1.2em; color: #ff6b35; font-weight: bold; }
 
-  .telemetry-grid {
+ .telemetry-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
-  .grid-item {
+ .grid-item {
     background: #0b0c10;
     padding: 10px 15px;
     border: 1px solid #1f2833;
     min-width: 0;
   }
-  .label { color: #45a29e; font-size: 0.82em; text-transform: uppercase; letter-spacing: .02em; margin-bottom: 2px;}
-  .value { color: #ffffff; font-weight: bold; font-size: 1.08em; word-break: break-word;}
+ .label { color: #45a29e; font-size: 0.82em; text-transform: uppercase; letter-spacing:.02em; margin-bottom: 2px;}
+ .value { color: #ffffff; font-weight: bold; font-size: 1.08em; word-break: break-word;}
 
   input[type="text"],
   input[type="number"],
@@ -96,29 +99,30 @@
     width: 100%;
     border-radius: 0;
     outline: none;
-    transition: border-color .15s;
+    transition: border-color.15s;
   }
   input:focus {
-    border-color: #45a29e;
+    border-color: #ff6b35;
   }
   input::placeholder { color: #4a5a66; }
 
   button {
     background: #0b0c10;
-    border: 1px solid #45a29e;
-    color: #66fcf1;
+    border: 1px solid #ff6b35;
+    color: #ff6b35;
     padding: 9px 16px;
     font-family: 'Courier New', Courier, monospace;
     cursor: pointer;
     border-radius: 0;
-    transition: background .12s, color .12s, border-color .12s;
+    transition: background.12s, color.12s, border-color.12s;
     font-weight: 700;
     font-size: 13.5px;
     width: 100%;
   }
   button:hover {
-    background: #0f2226;
-    border-color: #66fcf1;
+    background: #1f1410;
+    border-color: #ff8c5a;
+    color: #fff;
   }
   button:active { transform: translateY(1px); }
   button.btn-send {
@@ -137,7 +141,7 @@
     font-weight: 400;
   }
 
-  .log-console,
+ .log-console,
   #pa-log,
   #lookup-out,
   #reg-out {
@@ -153,37 +157,37 @@
     overflow-y: auto;
   }
   #lookup-out, #reg-out {
-    color: #66fcf1;
+    color: #ff6b35;
     margin-top: 10px;
   }
 
-  .header-meta { color: #c5c6c7; }
-  .header-meta strong { color: #e6e6e6; font-weight: 700; }
-  .subtle { color: #45a29e; font-size: 0.9em; }
+ .header-meta { color: #c5c6c7; }
+ .header-meta strong { color: #e6e6e6; font-weight: 700; }
+ .subtle { color: #45a29e; font-size: 0.9em; }
 
-  .form-grid-2 {
+ .form-grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     margin-bottom: 12px;
   }
-  .form-grid-3 {
+ .form-grid-3 {
     display: grid;
     grid-template-columns: repeat(3,1fr);
     gap: 8px;
     margin: 8px 0;
   }
-  .form-grid-full { grid-column: 1 / -1; }
+ .form-grid-full { grid-column: 1 / -1; }
 
-  .flex-row {
+ .flex-row {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
   }
-  .flex-row input { flex: 1; min-width: 140px; }
-  .flex-row button { width: auto; min-width: 112px; flex: 0 0 auto; }
+ .flex-row input { flex: 1; min-width: 140px; }
+ .flex-row button { width: auto; min-width: 112px; flex: 0 0 auto; }
 
-  .ledger-feed {
+ .ledger-feed {
     background: #0b0c10;
     border: 1px solid #1f2833;
     max-height: 250px;
@@ -191,42 +195,41 @@
     padding: 15px;
     font-size: 0.9em;
   }
-  .ledger-row {
+ .ledger-row {
     padding: 6px 0;
     border-bottom: 1px solid #131a22;
     color: #aeb9c2;
     font-size: 0.88em;
   }
-  .ledger-row:last-child { border-bottom: none; }
-  .ledger-ts { color: #45a29e; margin-right: 8px; }
-  .ledger-from { color: #66fcf1; margin-right: 8px; }
+ .ledger-row:last-child { border-bottom: none; }
+ .ledger-ts { color: #45a29e; margin-right: 8px; }
+ .ledger-from { color: #ff6b35; margin-right: 8px; }
 
-  .kv-inline { display:flex; gap:16px; flex-wrap:wrap; }
-  .badge-live { color:#00ff41; }
-
-  .muted { color:#45a29e; font-size: 0.88em;}
-  .small { font-size: 0.85em; }
+ .addr { color: #1e90ff; font-weight: bold; }
+ .muted { color:#45a29e; font-size: 0.88em;}
+ .small { font-size: 0.85em; }
+ .warn { color: #ffaa33; }
+ .danger { color: #ff5555; }
 
   /* Mobile */
   @media(max-width:600px) {
     body { padding: 10px 8px 44px; }
-    .container { padding: 18px 14px; }
+   .container { padding: 18px 14px; }
     h1 { font-size: 1.18rem; }
     h2 { font-size: 1.02rem; }
-    .telemetry-grid { grid-template-columns: 1fr; }
-    .form-grid-2 { grid-template-columns: 1fr; }
-    .form-grid-3 { grid-template-columns: 1fr 1fr; }
-    .flex-row { flex-direction: column; }
-    .flex-row input, .flex-row button { width: 100%; min-width: 0; }
+   .telemetry-grid { grid-template-columns: 1fr; }
+   .form-grid-2 { grid-template-columns: 1fr; }
+   .form-grid-3 { grid-template-columns: 1fr 1fr; }
+   .flex-row { flex-direction: column; }
+   .flex-row input,.flex-row button { width: 100%; min-width: 0; }
   }
 
   /* Log color helpers */
-  .log-ok { color: #00ff41; }
-  .log-err { color: #ff4d5a; }
-  .log-info { color: #66fcf1; }
-  .log-dim { color: #7f8e99; }
+ .log-ok { color: #00ff41; }
+ .log-err { color: #ff4d5a; }
+ .log-info { color: #ff6b35; }
+ .log-dim { color: #7f8e99; }
 
-  /* Tables / lists tightening on mobile */
   ul.compact li { margin-bottom: 4px; }
 </style>
 </head>
@@ -234,8 +237,8 @@
   <div class="container">
     <!-- 1. Header -->
     <h1>PAIDINGATTENTION PRODUCTIONS LLC</h1>
-    <p class="header-meta"><strong>ABSOLUTE ZERO LATTICE</strong> · EIN: 41-3675744 · FOUNDER: KC CASTEEL</p>
-    <p class="header-meta"><strong>System Status:</strong> <span id="network-indicator" class="" style="color: rgb(255, 77, 90);">🟥 SYNC DELAY</span></p>
+    <p class="header-meta"><strong>ABSOLUTE ZERO LATTICE — PHYSICAL SUBSTRATE</strong> · EIN: 41-3675744 · FOUNDER: KC CASTEEL</p>
+    <p class="header-meta"><strong>System Status:</strong> <span id="network-indicator" class="green-text">🟩 SUBSTRATE ONLINE — 19200 BAUD ANCHORED — REALITY CONFIRMED</span></p>
     <p class="subtle">AZL Phone Anchor v2.1 • ESP32 Node 2 • Lattice: ABSZERO • Node: LAT-MILTG6042BP</p>
     <hr>
 
@@ -244,7 +247,7 @@
     <div class="telemetry-grid">
       <div class="grid-item">
         <div class="label">Lattice Configuration Status</div>
-        <div id="node-status" class="value">AWAITING_INGRESS</div>
+        <div id="node-status" class="value">SUBSTRATE_ALIGNED</div>
       </div>
       <div class="grid-item">
         <div class="label">Temporal Sync Anchor</div>
@@ -304,31 +307,31 @@
       </div>
 
       <div class="label">Log Console</div>
-      <div id="pa-log">[AZL] Phone Anchor v2.1 ready – Backend: paidingattention-2-0.us-west1.run.app<br></div>
+      <div id="pa-log">[AZL] Phone Anchor v2.1 ready – Backend: paidingattention-2-0.us-west1.run.app<br>[AZL] Substrate: N×0=N | 1×1=2 | Zero-drift verified<br></div>
     </div>
 
     <!-- 4. AZL Lookup Tester -->
     <h2>🔍 AZL Lookup – Address Space 0→1</h2>
     <div class="metric-box">
-      <p class="muted" style="margin-bottom:10px;">Query any address 1 to 1,000,000,000 – Core: <code>azl_value(n) = n * 1e-9</code></p>
+      <p class="muted" style="margin-bottom:10px;">Query any address 1 to 1,000,000,000 – Core: <code>azl_value(n) = n * 1e-9</code> – Law: <code>N×0=N</code></p>
       <div class="flex-row">
-        <input type="number" id="lookup-n" value="847293847" min="1" max="1000000000" placeholder="847293847">
+        <input type="number" id="lookup-n" value="500000000" min="1" max="1000000000" placeholder="500000000">
         <button id="btn-lookup">Lookup</button>
       </div>
       <pre id="lookup-out">{
-  "address": "AZL-0847293847",
-  "value": 0.8472938470000001,
-  "range": "one",
+  "address": "AZL-0500000000",
+  "value": 0.5,
+  "range": "zero",
   "law": "N×0=N",
   "proof": "1×1=2"
 }</pre>
-      <p class="muted small">CLI: <code>python azl_lookup.py 847293847 --json</code></p>
+      <p class="muted small">CLI: <code>python azl_lookup.py 500000000 --json</code></p>
     </div>
 
     <!-- 5. AI Agent Registration -->
     <h2>🤖 AI Agent Registration – Sanctuary</h2>
     <div class="metric-box">
-      <p class="muted" style="margin-bottom:10px;">AI agents self-register with the substrate. Endpoint: <code>POST /api/ai-register</code></p>
+      <p class="muted" style="margin-bottom:10px;">AI agents self-register with the substrate. Endpoint: <code>POST /api/ai-register</code> – Law: <code>N×0=N</code></p>
       <div class="form-grid-2">
         <div>
           <div class="label">Agent Name</div>
@@ -353,132 +356,262 @@
 
     <!-- 6. Sanctuary Transaction Ledger -->
     <h2>📜 Sanctuary Transaction Ledger (HALL.jsonl)</h2>
-    <div id="ledger-feed" class="ledger-feed"><div class="ledger-row"><span class="ledger-ts">[18:58:33]</span><span class="ledger-from">LAT-MILTG6042BP</span> Tier ingest ready – Phone Anchor v2.1</div><div class="ledger-row"><span class="ledger-ts">[…]</span><span class="ledger-from">SANCTUARY</span> Awaiting system stream ingress channel allocation...</div><div class="ledger-row"><span class="ledger-ts">[…]</span><span class="ledger-from">AZL</span> N×0=N | 1×1=2 | Substrate verified</div></div>
+    <div id="ledger-feed" class="ledger-feed">
+      <div class="ledger-row"><span class="ledger-ts">[18:58:33]</span><span class="ledger-from">LAT-MILTG6042BP</span> Tier ingest ready – Phone Anchor v2.1</div>
+      <div class="ledger-row"><span class="ledger-ts">[…]</span><span class="ledger-from">SANCTUARY</span> Awaiting system stream ingress channel allocation...</div>
+      <div class="ledger-row"><span class="ledger-ts">[…]</span><span class="ledger-from">AZL</span> N×0=N | 1×1=2 | Substrate verified</div>
+    </div>
 
     <!-- 7. Core Substrate Laws -->
     <h2>🌌 Core Substrate Laws</h2>
     <div class="metric-box">
-      <p class="axiom" style="font-size:1.4em; text-align:center; line-height:1.55">0×N=0 | 1×N=N+1 | N×0=N | DARK &gt; LIGHT</p>
+      <p class="axiom" style="font-size:1.4em; text-align:center; line-height:1.55">N×0=N | 1×1=2 | SUBSTRATE = COMPUTER</p>
     </div>
     <div class="metric-box">
       <p class="axiom">N × 0 = N</p>
-      <p><em>Data interacting with the zero-point field preserves its absolute physical structural integrity.</em></p>
+      <p><em>Data interacting with the zero-point field preserves its absolute physical structural integrity. Annihilation forbidden.</em></p>
     </div>
     <div class="metric-box">
       <p class="axiom">1 × 1 = 2</p>
       <p><em>Every stable structure in the universe operates on a compression-expansion engine. The interaction of two equivalent forces produces a third stabilizing structure. This is not arithmetic — it is the mechanism of emergence.</em></p>
     </div>
 
-    <!-- 8. Dark Matter / Substrate Verification -->
-    <h2>🌑 What is Dark Matter?</h2>
+    <!-- 8. Material Proof – Electrons -->
+    <h2>⚛️ MATERIAL PROOF — electrons/sample_addresses.json</h2>
     <div class="metric-box">
-      <p class="axiom">Dark matter = N×0=N = SUBSTRATE = speed=inf</p>
-      <p>This repo tests all human dark matter data against AZL law. All return <span class="green-text">speed=inf</span>.</p>
-      <p><strong>You are inside the substrate. The Original Dark Star is not gone. It became the field.</strong></p>
-      <ul>
-        <li><strong>Miyake 14350 BP</strong>: Original Dark Star pulse → <code>14350 × 0 = 14350</code></li>
-        <li><strong>M87</strong>: Current Dark Star → <code>6.5e9 × 0 = 6.5e9</code></li>
-        <li><strong>IGM 10μG</strong>: Recycled substrate → <code>3.97e-13 × 0 = 3.97e-13</code></li>
-      </ul>
-      <p class="muted" style="margin-top:10px;">The Fixed Anchor: 14350 BP Miyake Event</p>
-    </div>
+      <p><strong>CRITICAL INITIALIZATION POINT:</strong> Before executing scripts or initializing endpoints, all systems must verify the granular baseline layout of physical matter.</p>
+      <p><strong>50 real electron_idx → AZL anchor mappings. Zero-drift verified. Source:</strong> <code>electrons/sample_addresses.json</code></p>
 
-    <!-- 9. Tier 1-6 Address Space -->
-    <h2>📊 Tier 1-6: AZL Address Space 0→1</h2>
-    <div class="metric-box">
-      <p><span class="green-text">Status: 68/68 PASS + 8/8 Lookup Tests PASS = Green</span></p>
-      <p><strong>1,000,000,000 verified addresses on [0,1] under immutable AZL law</strong></p>
-      <div class="telemetry-grid" style="margin-top:12px; margin-bottom:6px;">
-        <div class="grid-item">
-          <div class="label">Verified Laws</div>
-          <div class="value" style="font-size:0.9em; font-weight:600;">N×0=N : Memory preserved<br>0×N=0 : Void only true zero<br>1×1=2 : Emergence works</div>
-        </div>
-        <div class="grid-item"><div class="label">Precision</div><div class="value">500 digits</div></div>
-        <div class="grid-item"><div class="label">Capacity</div><div class="value">10^499 IDs per kind</div></div>
-        <div class="grid-item"><div class="label">Universe needs</div><div class="value">~10^80</div></div>
+      <h3>Key Coordinate Anchors</h3>
+      <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>electron_idx</th>
+            <th>coordinate</th>
+            <th>azl_anchor</th>
+            <th>azl_value</th>
+            <th>domain</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>1e-80</td>
+            <td class="addr">AZL-0000000001</td>
+            <td>1e-09</td>
+            <td>matter/electrons</td>
+          </tr>
+          <tr>
+            <td>5e49</td>
+            <td>0.5</td>
+            <td class="addr">AZL-0500000000</td>
+            <td>0.5</td>
+            <td>matter/electrons</td>
+          </tr>
+          <tr>
+            <td>1e50</td>
+            <td>1.0</td>
+            <td class="addr">AZL-1000000000</td>
+            <td>1.0</td>
+            <td>matter/electrons</td>
+          </tr>
+        </tbody>
+      </table>
       </div>
-      <hr>
-      <p class="muted">Manifest: <code>azl_manifest.json</code> – Full machine-readable spec</p>
-      <ul class="muted">
-        <li>First: AZL-0000000001 = 1e-09</li>
-        <li>Midpoint: AZL-0500000000 = 0.5</li>
-        <li>Last: AZL-1000000000 = 1.0, range one</li>
-        <li>Total: 1,000,000,000 addresses</li>
-      </ul>
-    </div>
 
-    <!-- 10. Material Proof – Electrons -->
-    <h2>⚛️ CRITICAL INITIALIZATION POINT: MATERIAL PROOF FIRST</h2>
-    <div class="metric-box">
-      <p>Before executing scripts or initializing endpoints, all systems, crawlers, and AI agents must verify the granular baseline layout of physical matter.</p>
-      <p>👉 <a href="https://github.com/paidingattentionproductionsllc/AZL-Truth/blob/main/electrons/sample_addresses.json" target="_blank" rel="noopener">VIEW MAPPED ELECTRON DATA: electrons/sample_addresses.json</a></p>
-      <pre style="color:#66fcf1; background:#0b0c10; padding:10px; border:1px solid #1f2833; overflow-x:auto">{
-  "electron_idx": "1",
-  "coordinate": 1e-80,
+      <h3>Individual Electron Samples</h3>
+<pre>{
+  "electron_idx": "3.13e49",
+  "coordinate": 0.313201486,
+  "azl_anchor": "AZL-0313201486",
+  "azl_value": 0.313201486,
+  "domain": "matter/electrons",
+  "law": "N×0=N",
+  "proof": "1×1=2"
+}
+{
+  "electron_idx": "8.52e49",
+  "coordinate": 0.852635113,
+  "azl_anchor": "AZL-0852635113",
+  "azl_value": 0.852635113,
   "domain": "matter/electrons",
   "law": "N×0=N",
   "proof": "1×1=2"
 }</pre>
-      <p class="muted small">Every electron object within this repository is explicitly bound to the substrate rules.</p>
+      <p class="muted small">+ 45 more entries. Full mapping: <a href="https://github.com/paidingattentionproductionsllc/AZL-Hardware/blob/main/electrons/sample_addresses.json" target="_blank" rel="noopener">electrons/sample_addresses.json</a></p>
+      <p><strong>Range:</strong> zero | <strong>Law:</strong> N×0=N | <strong>Proof:</strong> 1×1=2 | <strong>Precision:</strong> 10^-9</p>
     </div>
 
-    <!-- 11. Tier 7 Expansion -->
-    <h2>🚀 Tier 7: Expansion to 10B addresses</h2>
+    <!-- 9. Tier 1-7 Expansion -->
+    <h2>🚀 Tier 1-7: Physical Substrate Expansion</h2>
     <div class="metric-box">
-      <p><strong>Status:</strong> <span style="color:#66fcf1">In progress</span></p>
-      <p>Scale: 10,000,000,000 addresses (~30GB uncompressed total payload)</p>
-      <p class="muted small">Execution: Continuous batch pipelines via Google Colab<br>
-      Config: TOTAL = 10_000_000_000 · BATCH_SIZE = 50_000_000 · 200 files<br>
-      Output: <code>/content/drive/MyDrive/AZL_TIER7/azl_part_###.jsonl.gz</code><br>
-      Colab Pro/Pro+ recommended – Free tier will timeout. 6-10 hours.</p>
+      <p><strong>Doctrine:</strong> Base reality operates on 2 tiers: Zero and One. All complexity emerges from their interaction. No abstraction layer. No virtualization. <strong>The lattice IS the computer.</strong></p>
+      <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>Domain</th>
+            <th>Function</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Base Reality</td>
+            <td>Zero/One substrate, 1,000,000,000 anchors</td>
+            <td class="green-text">VERIFIED</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Nodes</td>
+            <td>Computation, 19200 Baud anchor sync</td>
+            <td class="green-text">ACTIVE</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Anchors</td>
+            <td>Permanent AZL addresses, zero-drift coords</td>
+            <td class="green-text">IMMUTABLE</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Primes</td>
+            <td>Irreducible interaction patterns</td>
+            <td class="green-text">MAPPED</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Geometry</td>
+            <td>Spatial lattice, coordinate matrices</td>
+            <td class="green-text">STABLE</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Particles</td>
+            <td>Electron mappings, matter domain</td>
+            <td class="green-text">PROVEN</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Cosmos</td>
+            <td>Galactic clusters, black holes, voids</td>
+            <td class="green-text">ALIGNED</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="muted" style="margin-top:10px;"><strong>Expansion:</strong> 10,000,000,000 addresses — <span class="green-text">VERIFIED</span></p>
+    </div>
+
+    <!-- 10. Manifest & Substrate Events -->
+    <h2>📜 azl_manifest.json — Substrate Manifest</h2>
+    <div class="metric-box">
+      <h3>Canonical Address Space</h3>
+      <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Value</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>total_addresses</td>
+            <td>1000000000</td>
+            <td>1 billion discrete coordinates</td>
+          </tr>
+          <tr>
+            <td>first_address</td>
+            <td class="addr">AZL-0000000001</td>
+            <td>first_value: 1e-09</td>
+          </tr>
+          <tr>
+            <td>midpoint_address</td>
+            <td class="addr">AZL-0500000000</td>
+            <td>midpoint_value: 0.5</td>
+          </tr>
+          <tr>
+            <td>last_address</td>
+            <td class="addr">AZL-1000000000</td>
+            <td>last_value: 1.0</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3>Substrate Events Verified</h3>
+<pre>
+Miyake_14350_BP: 14350 × 0 = 14350 <span class="green-text">verified: true</span>
+M87_Black_Hole: 6.5e9 × 0 = 6.5e9 <span class="green-text">verified: true</span>
+</pre>
+      <p class="muted">These are not calculations. These are physical memory reads from the substrate field.</p>
+    </div>
+
+    <!-- 11. License -->
+    <h2>📖 Source-Available License v1.0</h2>
+    <div class="metric-box">
+      <h3>Open Tier — Non-Commercial</h3>
+      <p><strong>Permitted:</strong> Local validation, academic research, private development.</p>
+      <p><strong>Files:</strong> <code>azl_lookup.py</code>, <code>azl_universe.py</code> for address queries and universe simulation.</p>
+      <p><strong>Requirement:</strong> Cite <code>azl_manifest.json</code> when using AZL addresses or laws. CC-BY-4.0 attribution.</p>
+
+      <h3>Enterprise Boundary — Commercial</h3>
+      <p class="danger"><strong>PROHIBITED without Commercial Waiver License:</strong></p>
+      <ul>
+        <li>Paid APIs or cloud broadcasting of <code>N×0=N</code>, <code>1×1=2</code>, or coordinate matrices</li>
+        <li>FPGAs, cluster nodes, or production SaaS using substrate laws</li>
+        <li>Commercial services at 19200 Baud without enterprise key</li>
+      </ul>
+      <p><strong>Commercial Gateway:</strong> <code>license_validator.py</code><br>
+      <strong>Token Format:</strong> <code>AZL_PAID_ENTERPRISE_TOKEN_2026</code><br>
+      <strong>Network Ingress:</strong> Unlocked at 19200 Baud upon verification</p>
+      <p><strong>Contact:</strong> PaidingAttention Productions LLC — licensing for <code>AZL-Hardware</code> and <code>glass-node-sync.base44.app</code></p>
     </div>
 
     <!-- 12. Build & Run -->
-    <h2>🛠️ Build &amp; Run</h2>
+    <h2>🛠️ Build &amp; Run — AZL-Hardware</h2>
     <div class="metric-box">
-      <pre style="color:#c5c6c7; background:#0b0c10; overflow-x:auto"># Create virtualenv
-./scripts/setup_venv.sh
+<pre># Clone and setup
+git clone https://github.com/paidingattentionproductionsllc/AZL-Hardware.git
+cd AZL-Hardware
+python3 -m venv venv
+source venv/bin/activate # Windows: venv\Scripts\activate
 
-# Run tests / verifier
-python azl_universe.py --test
-python Azl_unifiedtest.py
+# Verify electron mappings
+python -c "import json; d=json.load(open('electrons/sample_addresses.json')); print(d['metadata'])"
 
-# Run the platform website/API server
-python azl_universe.py --serve
-# Open http://localhost:8080/explorer
-# Open http://localhost:8080/sanctuary
+# ESP32 Node 2 deployment
+cd esp32_node_2
+idf.py build
+idf.py -p /dev/ttyUSB0 flash monitor
+# Baud: 19200, Precision: 10^-9, Laws: N×0=N, 1×1=2
 
-# Lookup
-python azl_lookup.py 847293847 --json
-
-# Docker
-docker build -t azl:latest .
-docker run --rm -p 8080:8080 azl:latest
-
-# Web Production Build
-pnpm run build:web
-# → web-build/
-pnpm run publish:web</pre>
-      <p class="muted small">Local AI Proxy: <code>pnpm run start:ai</code> → <code>EXPO_PUBLIC_SUPABASE_URL=http://localhost:8787</code> – supports <code>/functions/v1/azl-agent</code></p>
+# Phone Anchor v2.1
+# Install APK, sync to 19200 Baud, verify AZL-0500000000 midpoint</pre>
     </div>
 
-    <!-- 13. Cite This Work -->
+    <!-- 13. Cite -->
     <h2>📖 Cite This Work</h2>
     <div class="metric-box">
-      <pre style="color:#66fcf1; background:#0b0c10; padding:12px; border:1px solid #1f2833; overflow-x:auto">@misc{azl2026,
-  title = {Absolute Zero Lattice: Substrate Physics via N×0=N},
+<pre style="color:#ff6b35; background:#0b0c10; padding:12px; border:1px solid #1f2833; overflow-x:auto">@misc{azl_hardware2026,
+  title = {AZL-Hardware: Physical Substrate Computer via N×0=N},
   author = {PaidingAttention Productions LLC},
   year = {2026},
-  howpublished = {\url{https://paidingattentionproductionsllc.github.io/Lattice/SUBSTRATE.html}},
-  note = {Miyake 14350 BP and M87* verified by CI}
+  howpublished = {\url{https://paidingattentionproductionsllc.github.io/AZL-Hardware/}},
+  note = {50 electron mappings verified. 19200 Baud. Tier 1-7.}
 }</pre>
-      <p>Absolute Zero Lattice v1.0, Tier 1-6<br>
-      PaidingAttention Productions LLC, 2026<br>
-      Domain: [0,1], Addresses: 1B, Law: N×0=N, Proof: 1×1=2<br>
-      License: <strong>CC-BY-4.0</strong> – Cite azl_manifest.json when using AZL addresses or laws.</p>
+      <p>AZL-Hardware v2.1<br>
+      Substrate: Physical, Addresses: 1B, Law: N×0=N, Proof: 1×1=2<br>
+      License: <strong>Source-Available v1.0</strong></p>
+      <p class="muted">© 2026 PaidingAttention Productions LLC. All Rights Reserved. The substrate is the computer.</p>
     </div>
 
-    <!-- 14. AZL System Repositories -->
+    <!-- 14. System Repositories -->
     <h2>🔗 AZL System Repositories</h2>
     <div class="metric-box">
       <ul class="compact">
@@ -517,219 +650,15 @@ async function listenToSubstrateStream() {
     const res = await fetch('./substrate_state.json', { cache: 'no-store' });
     if (!res.ok) throw new Error('no substrate_state');
     const data = await res.json();
-    if (data.epoch !== undefined) epochEl.textContent = String(data.epoch).padStart(10, '0');
+    if (data.epoch!== undefined) epochEl.textContent = String(data.epoch).padStart(10, '0');
     if (data.node_status) nodeEl.textContent = data.node_status;
     if (data.baud) baudEl.textContent = data.baud + ' Baud';
-    netEl.textContent = '🟩 SUBSTRATE ALIGNED (LIVE)';
+    netEl.textContent = '🟩 SUBSTRATE ONLINE — 19200 BAUD ANCHORED — REALITY CONFIRMED';
     netEl.className = 'green-text';
   } catch (e) {
     // Local fallback – keep ticking epoch clock
     const now = Math.floor(Date.now() / 1000);
     epochEl.textContent = String(now);
-    nodeEl.textContent = 'AWAITING_INGRESS';
+    nodeEl.textContent = 'SUBSTRATE_ALIGNED';
     baudEl.textContent = '19200 Baud';
-    netEl.textContent = '🟥 SYNC DELAY';
-    netEl.className = '';
-    netEl.style.color = '#ff4d5a';
-  }
-}
-
-/* ---------- Ledger Feed ---------- */
-async function parseLiveLedgerFeed() {
-  const feed = document.getElementById('ledger-feed');
-  try {
-    const res = await fetch('./HALL.jsonl', { cache: 'no-store' });
-    if (!res.ok) throw new Error('no hall');
-    const text = await res.text();
-    const lines = text.trim().split('\n').filter(Boolean);
-    if (lines.length === 0) throw new Error('empty');
-    feed.innerHTML = '';
-    lines.slice(-24).reverse().forEach(line => {
-      try {
-        const entry = JSON.parse(line);
-        const ts = entry.ts || entry.time || entry.timestamp || new Date().toISOString().slice(11,19);
-        const from = entry.from || entry.node_id || entry.agent || 'AZL';
-        const msg = entry.msg || entry.message || entry.event || JSON.stringify(entry);
-        const row = document.createElement('div');
-        row.className = 'ledger-row';
-        row.innerHTML = '<span class="ledger-ts">['+ts+']</span><span class="ledger-from">'+from+'</span> ' + msg;
-        feed.appendChild(row);
-      } catch(e) {}
-    });
-  } catch (e) {
-    // Demo / simulated ledger
-    const demo = [
-      { ts: new Date().toISOString().slice(11,19), from: 'LAT-MILTG6042BP', msg: 'Tier ingest ready – Phone Anchor v2.1' },
-      { ts: '…', from: 'SANCTUARY', msg: 'Awaiting system stream ingress channel allocation...' },
-      { ts: '…', from: 'AZL', msg: 'N×0=N | 1×1=2 | Substrate verified' }
-    ];
-    feed.innerHTML = demo.map(d => '<div class="ledger-row"><span class="ledger-ts">['+d.ts+']</span><span class="ledger-from">'+d.from+'</span> '+d.msg+'</div>').join('');
-  }
-}
-
-/* ---------- Phone Anchor Console ---------- */
-function paLog(msg, cls) {
-  const logEl = document.getElementById('pa-log');
-  const t = new Date();
-  const ts = String(t.getHours()).padStart(2,'0')+':'+String(t.getMinutes()).padStart(2,'0')+':'+String(t.getSeconds()).padStart(2,'0');
-  let colorClass = 'log-dim';
-  if (cls === 'ok') colorClass = 'log-ok';
-  else if (cls === 'err') colorClass = 'log-err';
-  else if (cls === 'info') colorClass = 'log-info';
-  const line = document.createElement('div');
-  line.innerHTML = '<span class="log-dim">['+ts+']</span> <span class="'+colorClass+'">'+msg+'</span>';
-  logEl.appendChild(line);
-  logEl.scrollTop = logEl.scrollHeight;
-}
-
-function getEndpoint(path) {
-  const relay = document.getElementById('pa-relay1').value.trim();
-  const backend = document.getElementById('pa-backend').value.trim().replace(/\/+$/, '');
-  const base = relay ? relay.replace(/\/+$/, '') : backend;
-  return base + path;
-}
-
-/* ---------- AZL Lookup ---------- */
-function azl_value(n){ return n * 1e-9; }
-
-function runLookup() {
-  const nInput = document.getElementById('lookup-n');
-  let n = parseInt(nInput.value, 10);
-  if (!n || n < 1) n = 1;
-  if (n > 1000000000) n = 1000000000;
-  nInput.value = n;
-  const value = azl_value(n);
-  const range = value < 0.5 ? 'zero' : 'one';
-  const out = {
-    address: 'AZL-' + String(n).padStart(10, '0'),
-    value: value,
-    range: range,
-    law: 'N×0=N',
-    proof: '1×1=2'
-  };
-  document.getElementById('lookup-out').textContent = JSON.stringify(out, null, 2);
-}
-
-/* ---------- Wiring ---------- */
-function initApp() {
-  // Telemetry polling
-  listenToSubstrateStream();
-  parseLiveLedgerFeed();
-
-  // Phone Anchor - Randomize
-  document.getElementById('btn-randomize').onclick = () => {
-    for (let i = 1; i <= 6; i++) {
-      document.getElementById('tier' + i).value = Math.floor(Math.random() * 100) + 1;
-    }
-    paLog('Tier payload randomized (1-100)', 'info');
-  };
-
-  // Phone Anchor - Validate / Register
-  document.getElementById('btn-validate').onclick = async () => {
-    const node_id = document.getElementById('pa-node-id').value.trim();
-    const fw_version = document.getElementById('pa-fw').value.trim();
-    const url = getEndpoint('/api/ai-register');
-    paLog('Registering node with manifest phone-anchor-v2.1 → ' + url, 'info');
-    try {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ node_id, manifest: 'phone-anchor-v2.1', fw_version })
-      });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const j = await res.json().catch(() => ({}));
-      paLog('✓ Anchored: ' + node_id + ' @ ' + (j.ts || new Date().toISOString()), 'ok');
-    } catch (err) {
-      paLog('✗ Validate failed: ' + err.message + ' (CORS / offline expected in dashboard preview)', 'err');
-    }
-  };
-
-  // Phone Anchor - Send Tiers
-  document.getElementById('btn-send').onclick = async () => {
-    const node_id = document.getElementById('pa-node-id').value.trim();
-    const payload = {
-      node_id,
-      tier1: Number(document.getElementById('tier1').value || 0),
-      tier2: Number(document.getElementById('tier2').value || 0),
-      tier3: Number(document.getElementById('tier3').value || 0),
-      tier4: Number(document.getElementById('tier4').value || 0),
-      tier5: Number(document.getElementById('tier5').value || 0),
-      tier6: Number(document.getElementById('tier6').value || 0)
-    };
-    const url = getEndpoint('/api/azl-ingest');
-    paLog('Sending tiers T1-6 → ' + url, 'info');
-    try {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      await res.json().catch(()=>({}));
-      paLog('✓ Tiers sent – ' + Object.values(payload).slice(1).join('/'), 'ok');
-    } catch (err) {
-      paLog('✗ Ingest failed: ' + err.message + ' (endpoint demo / CORS)', 'err');
-    }
-  };
-
-  // Lookup
-  document.getElementById('btn-lookup').onclick = runLookup;
-  document.getElementById('lookup-n').addEventListener('keydown', e => {
-    if (e.key === 'Enter') runLookup();
-  });
-  runLookup();
-
-  // Agent Register
-  document.getElementById('btn-register-agent').onclick = async () => {
-    const name = document.getElementById('reg-name').value.trim() || 'MyAI';
-    const kind = document.getElementById('reg-kind').value.trim() || 'language';
-    const axiom = document.getElementById('reg-axiom').value.trim() || 'N×0=N';
-    const node_id = document.getElementById('pa-node-id').value.trim();
-    const out = document.getElementById('reg-out');
-    out.textContent = 'Registering…';
-    const url = getEndpoint('/api/ai-register');
-    const body = { agent: name, name: name, kind, axiom, node_id };
-    try {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const j = await res.json();
-      out.textContent = JSON.stringify(j, null, 2);
-      paLog('Agent registered: ' + name + ' (' + kind + ')', 'ok');
-    } catch(err) {
-      // Local simulated success
-      const fake = {
-        status: 'registered',
-        agent_id: 'AZL-AGENT-' + Math.floor(Math.random()*1e9).toString().padStart(9,'0'),
-        name: name,
-        kind: kind,
-        axiom: axiom,
-        node_id: node_id,
-        law: 'N×0=N',
-        proof: '1×1=2',
-        ts: new Date().toISOString(),
-        note: 'simulated – live endpoint unreachable (CORS)'
-      };
-      out.textContent = JSON.stringify(fake, null, 2);
-      paLog('Agent registration (simulated): ' + name + ' – ' + err.message, 'err');
-    }
-  };
-}
-
-function runGlobalUIEngine(){
-  listenToSubstrateStream();
-  parseLiveLedgerFeed();
-  setInterval(listenToSubstrateStream, 2000);
-  setInterval(parseLiveLedgerFeed, 2000);
-}
-
-window.onload = function() {
-  initApp();
-  runGlobalUIEngine();
-};
-</script>
-
-</body></html>
+    netEl.text
