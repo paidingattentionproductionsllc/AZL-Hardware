@@ -2,11 +2,11 @@ name = "azl-omni-core"
 main = "src/index.js"
 compatibility_date = "2026-01-01"
 
-# Automatically routes execution close to backend hardware or data
+# Route execution to optimal global location based on hardware/mesh origin
 [placement]
 mode = "smart"
 
-# Durable Object Binding for Wireless State Mesh
+# Durable Object Binding (Embedded SQLite + Alarms)
 [[durable_objects.bindings]]
 name = "AZL_MESH_HUB"
 class_name = "AzlMeshHub"
@@ -14,3 +14,16 @@ class_name = "AzlMeshHub"
 [[migrations]]
 tag = "v1"
 new_sqlite_classes = ["AzlMeshHub"]
+
+# KV Binding for global cached reads
+[[kv_namespaces]]
+binding = "AZL_KV_CACHE"
+id = "YOUR_KV_NAMESPACE_ID"
+
+# Workers AI Binding (Local Neural Truth Sanitization)
+[ai]
+binding = "AI"
+
+# Autonomous Background Cron Trigger (Runs every 5 minutes)
+[triggers]
+crons = ["*/5 * * * *"]
