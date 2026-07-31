@@ -1,0 +1,16 @@
+name = "azl-omni-core"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+
+# Automatically routes execution close to backend hardware or data
+[placement]
+mode = "smart"
+
+# Durable Object Binding for Wireless State Mesh
+[[durable_objects.bindings]]
+name = "AZL_MESH_HUB"
+class_name = "AzlMeshHub"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["AzlMeshHub"]
